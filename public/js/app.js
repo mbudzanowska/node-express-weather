@@ -11,10 +11,7 @@ weatherForm.addEventListener("submit", (event) => {
 
   const location = search.value;
 
-  const weather_url =
-    "http://api.weatherstack.com/current?access_key=929bfe2032770905430e4eeb1bb97da0&query=" +
-    encodeURIComponent(location) +
-    "&units=m";
+  const weather_url = "/weather?address=" + encodeURIComponent(location);
 
   fetch(weather_url)
     .then((response) => {
@@ -23,12 +20,8 @@ weatherForm.addEventListener("submit", (event) => {
           messageOne.textContent = "Unable to find location! Try again";
           messageTwo.textContent = "";
         } else {
-          const {
-            current: { weather_descriptions, temperature, feelslike },
-            location: { name, country },
-          } = data;
-          messageOne.textContent = `${name}, ${country}`;
-          messageTwo.textContent = `${weather_descriptions[0]}. It is currently ${temperature} degrees outsite, but if feels like ${feelslike} degrees.`;
+          messageOne.textContent = data.location;
+          messageTwo.textContent = data.forecastData;
         }
       });
     })
